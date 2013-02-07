@@ -34,7 +34,7 @@ protected
   end
 
   def method_missing name, *args, &block
-    wrap config.send name, *args, &block
+    wrap(config.send name, *args, &block) || super
   end
 
   class ConfigOption < OpenStruct

@@ -4,6 +4,8 @@ module ExampleConfig
   config_file './config/example.yml'
   namespace Rails.env
 
+  module_function
+
   def kanoodle
     'ka' + config.noodle
   end
