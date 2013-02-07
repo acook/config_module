@@ -7,7 +7,7 @@ Usage
 -----
 
 ```ruby
-require 'config_module
+require 'config_module'
 
 module ExampleConfig
   extend ConfigModule
