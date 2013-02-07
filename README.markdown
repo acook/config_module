@@ -28,8 +28,8 @@ end
 Then use it:
 
 ```ruby
-ExampleConfig.foo
-ExampleConfig.kanoodle
+ExampleConfig.foo       #=> 'bar'
+ExampleConfig.kanoodle  #=> 'kaboom!'
 ```
 
 Done!
