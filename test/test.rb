@@ -15,3 +15,6 @@ spec 'modules extended with ConfigModule have "namespace" methods' do
   ExampleConfig.methods.include? :namespace
 end
 
+spec 'nested hash values are properly wrapped' do
+  ExampleConfig.dictionary.class == ConfigOption
+end

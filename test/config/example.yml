@@ -2,3 +2,5 @@
 :production:
   :foo: bar
   :noodle: boom!
+  :dictionary:
+    :configuration: An arrangement of elements in a particular form, figure, or combination.
