@@ -13,24 +13,26 @@ module Mutest
   end
 
   module Color
-    def red text=nil
-      "\e[31;1m#{text}#{normal if text}"
+
+    def colors
+      {
+        red: 1,
+        green: 2,
+        yellow: 3,
+        white: 7
+      }
     end
 
-    def green text=nil
-      "\e[32;1m#{text}#{normal if text}"
+    def color hue, text = nil
+      esc("3#{colors[hue]};1") + "#{text}#{normal if text}"
     end
 
-    def yellow text=nil
-      "\e[33;1m#{text}#{normal if text}"
-    end
-
-    def white text=nil
-      "\e[37;1m#{text}#{normal if text}"
+    def esc seq
+      "\e[#{seq}m"
     end
 
     def normal text=nil
-      "\e[0m#{text}"
+      esc(0) + text.to_s
     end
 
     def colorize result
@@ -58,6 +60,17 @@ module Mutest
     def vspace
       "\n\n"
     end
+
+  private
+
+    def method_missing name, *args, &block
+      if colors.keys.include? name then
+        color name, *args
+      else
+        super
+      end
+    end
+
   end
 
 private
