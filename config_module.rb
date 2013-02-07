@@ -1,3 +1,6 @@
+require 'ostruct'
+require 'yaml'
+
 module ConfigModule
   def [] key
     config.send key
@@ -15,12 +18,25 @@ module ConfigModule
     @namespace = name
   end
 
+protected
+
+  def wrap data
+    if data.is_a? Hash then
+      ConfigOption.new data
+    else
+      data
+    end
+  end
+
   def load_config
-    file = OpenStruct.new YAML.load_file(@config_file)
-    @namespace ? file[@namespace] : file
+    file = YAML.load_file(@config_file)
+    wrap @namespace ? (file[@namespace] || file[@namespace.to_sym]) : file
   end
 
   def method_missing name, *args, &block
-    config.send name, *args, &block
+    wrap config.send name, *args, &block
+  end
+
+  class ConfigOption < OpenStruct
   end
 end
