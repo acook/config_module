@@ -1,7 +1,7 @@
 require_relative 'mutest'
 extend Mutest
 
-require_relative '../config_module'
+require_relative '../lib/config_module'
 module Rails; def self.env; 'production'; end; end
 require_relative 'example_config'
 
@@ -17,4 +17,25 @@ end
 
 spec 'nested hash values are properly wrapped' do
   ExampleConfig.dictionary.class == ConfigModule::ConfigOption
+end
+
+spec 'config modules have [] methods' do
+  ExampleConfig[:dictionary].keys.include? :configuration
+end
+
+spec 'subkeys are accessible with methods' do
+  ExampleConfig.dictionary.configuration == 'An arrangement of elements in a particular form, figure, or combination.'
+end
+
+module FalseNil
+  extend ConfigModule
+  config_file './config/false_nil.yml'
+end
+
+spec 'false values are returned' do
+  FalseNil.f == false
+end
+
+spec 'nil values are preserved' do
+  FalseNil.n == nil
 end

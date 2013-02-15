@@ -1,4 +1,4 @@
-require 'config_module/version'
+require_relative 'config_module/version'
 require 'ostruct'
 require 'yaml'
 
@@ -35,7 +35,9 @@ protected
   end
 
   def method_missing name, *args, &block
-    wrap(config.send name, *args, &block) || super
+    wrap config.send name, *args, &block
+  rescue
+    raise NoMethodError, "undefined method `#{name}' for #{self}", caller(1)
   end
 
   class ConfigOption < OpenStruct
