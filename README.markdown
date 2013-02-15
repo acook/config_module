@@ -3,10 +3,19 @@ ConfigModule
 
 Load important configuration files into their own modules!
 
-Usage
------
+Usage Example
+-------------
 
-Set up your module:
+Given a YAML file `./config/example.yml':
+
+```yaml
+---
+:production:
+  :foo: bar
+  :noodle: boom!
+```
+
+And you set up your module:
 
 ```ruby
 require 'config_module'
@@ -25,7 +34,7 @@ module ExampleConfig
 end
 ```
 
-Then use it:
+Then you can use it like this:
 
 ```ruby
 ExampleConfig.foo       #=> 'bar'
