@@ -1,8 +1,6 @@
-require_relative 'mutest'
-extend Mutest
+require_relative 'spec_helper'
 
 require_relative '../lib/config_module'
-module Rails; def self.env; 'production'; end; end
 require_relative 'example_config'
 
 Dir.chdir File.dirname(__FILE__)
