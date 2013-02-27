@@ -8,38 +8,62 @@ module ConfigModule
   end
 
   def config
-    @config ||= load_config
+    @config ||= ConfigOption.wrap load_config
   end
 
   def config_file file
     @config_file = file
   end
 
-  def namespace name
-    @namespace = name
+  def namespace *name
+    @namespace = Array name
+  end
+
+  def namespaced?
+    !(@namespace.nil? || @namespace.empty?)
   end
 
 protected
 
-  def wrap data
-    if data.is_a? Hash then
-      ConfigOption.new data
+  def load_config
+    file = YAML.load_file(@config_file)
+
+    if namespaced? then
+      @namespace.inject(file) do |file, ns|
+        file.include?(ns) && file[ns] || file.include?(ns.to_sym) && file[ns.to_sym]
+      end
     else
-      data
+      file
     end
   end
 
-  def load_config
-    file = YAML.load_file(@config_file)
-    wrap @namespace ? (file[@namespace] || file[@namespace.to_sym]) : file
-  end
-
-  def method_missing name, *args, &block
-    wrap config.send name, *args, &block
-  rescue
-    raise NoMethodError, "undefined method `#{name}' for #{self}", caller(1)
+  def method_missing name
+    ConfigOption.wrap config.get name
+  rescue NoMethodError => error
+    if error.name == name then
+      raise NoMethodError, "undefined method `#{name}' for #{self}", caller(1)
+    else
+      raise
+    end
   end
 
   class ConfigOption < OpenStruct
+    def self.wrap data
+      if data.is_a? Hash then
+        ConfigOption.new data
+      else
+        data
+      end
+    end
+
+    def get name
+      if @table.include? name then
+        self.class.wrap @table[name]
+      else
+        raise ConfigOption::NotFound
+      end
+    end
+
+    class NotFound < RangeError; end
   end
 end

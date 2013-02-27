@@ -39,3 +39,21 @@ end
 spec 'nil values are preserved' do
   FalseNil.n == nil
 end
+
+spec 'missing keys raise exception when called as methods' do
+  begin
+    FalseNil.nonexistant
+  rescue ConfigModule::ConfigOption::NotFound
+    true
+  end
+end
+
+module MultipleExample
+  extend ConfigModule
+  config_file './config/example.yml'
+  namespace :production, :dictionary
+end
+
+spec 'multiple namespaces can be set' do
+  MultipleExample.configuration == ExampleConfig.dictionary.configuration
+end
