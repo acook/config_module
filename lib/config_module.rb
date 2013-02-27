@@ -11,6 +11,8 @@ module ConfigModule
     @config ||= ConfigOption.wrap load_config
   end
 
+protected
+
   def config_file file
     @config_file = file
   end
@@ -19,11 +21,11 @@ module ConfigModule
     @namespace = Array name
   end
 
+private
+
   def namespaced?
     !(@namespace.nil? || @namespace.empty?)
   end
-
-protected
 
   def load_config
     file = YAML.load_file(@config_file)
