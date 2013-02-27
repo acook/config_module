@@ -8,6 +8,9 @@ module ConfigModule
       end
     end
 
+    alias_method :each, :each_pair
+    include Enumerable
+
     def method_missing name, *args, &block
       result = super
 
