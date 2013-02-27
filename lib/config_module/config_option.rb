@@ -8,14 +8,21 @@ module ConfigModule
       end
     end
 
-    def get name
+    def method_missing name, *args, &block
       if @table.include? name then
-        self.class.wrap @table[name]
-      #elsif @table.include? name.to_s then
-      #  self.class.wrap @table[name.to_s]
+        self.class.wrap super
       else
         raise ConfigOption::NotFoundError.new name, self
       end
+    end
+
+    def new_ostruct_member name
+      name = name.to_sym
+      unless respond_to? name
+        define_singleton_method(name) { self.class.wrap @table[name] }
+        define_singleton_method("#{name}=") { |x| modifiable[name] = x }
+      end
+      name
     end
 
     class NotFoundError < ::ConfigModule::ConfigError
