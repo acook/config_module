@@ -1,5 +1,7 @@
 module ConfigModule
   class ConfigOption < OpenStruct
+    include Enumerable
+
     def self.wrap data
       if data.is_a? Hash then
         ConfigOption.new data
@@ -8,8 +10,10 @@ module ConfigModule
       end
     end
 
-    alias_method :each, :each_pair
-    include Enumerable
+    def each
+      return to_enum __method__ unless block_given?
+      @table.each_pair{|p| yield p}
+    end
 
     def method_missing name, *args, &block
       result = super
