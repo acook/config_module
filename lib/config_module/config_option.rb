@@ -9,9 +9,10 @@ module ConfigModule
     end
 
     def method_missing name, *args, &block
-      result = self.class.wrap(super)
-      unless result || @table.include?(name) then
-        result
+      result = super
+
+      if result || @table.include?(name) then
+        self.class.wrap result
       else
         raise ConfigOption::NotFoundError.new name, self
       end
