@@ -8,5 +8,9 @@ spec 'ConfigOptions are Enumerable' do
 end
 
 spec 'to_ary' do
-  opt.to_ary
+  begin
+    opt.to_ary
+  rescue NoMethodError => error
+    error.class == ConfigModule::ConfigOption::NotFoundError
+  end
 end

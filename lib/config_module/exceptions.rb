@@ -1,5 +1,5 @@
 module ConfigModule
-  class ConfigError < RuntimeError
+  class ConfigError < NoMethodError
     def initialize name, object
       @name, @object = name, object
       super "invalid #{identifier} `#{name}' for #{object_info}"
