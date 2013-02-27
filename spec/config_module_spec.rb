@@ -1,9 +1,5 @@
 require_relative 'spec_helper'
-
-require_relative '../lib/config_module'
 require_relative 'example_config'
-
-Dir.chdir File.dirname(__FILE__)
 
 spec 'modules extended with ConfigModule will load configurations' do
   ExampleConfig.foo == 'bar'

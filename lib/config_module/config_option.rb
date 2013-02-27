@@ -11,6 +11,8 @@ module ConfigModule
     def get name
       if @table.include? name then
         self.class.wrap @table[name]
+      #elsif @table.include? name.to_s then
+      #  self.class.wrap @table[name.to_s]
       else
         raise ConfigOption::NotFoundError.new name, self
       end

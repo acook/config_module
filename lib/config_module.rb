@@ -5,59 +5,34 @@ require 'pry'
 require_relative 'config_module/version'
 require_relative 'config_module/exceptions'
 require_relative 'config_module/config_option'
+require_relative 'config_module/config_helper'
 
 module ConfigModule
   def [] key
-    config.send key
+    __config_module_helper.config.send key
   end
 
   def config
-    @config ||= ConfigOption.wrap load_config
+    __config_module_helper.config
   end
 
 protected
 
-  def config_file file
-    @config_file = file
+  def config_file new_config_file
+    __config_module_helper.config_file = new_config_file
   end
 
-  def namespace *name
-    @namespace = Array name
+  def namespace *new_namespace
+    __config_module_helper.namespaces = *new_namespace
   end
 
 private
 
-  def namespaced?
-    !(@namespace.nil? || @namespace.empty?)
-  end
-
-  def load_config
-    file = YAML.load_file(@config_file)
-
-    if namespaced? then
-      load_namespaces_from file
-    else
-      file
-    end
-  end
-
-  def load_namespaces_from file
-    @namespace.inject(file) do |inner, ns|
-      if inner.respond_to? :[] then
-        inner[ns.to_s] || inner[ns.to_sym]
-      else
-        raise(InvalidNamespaceError.new(ns, inner))
-      end
-    end
+  def __config_module_helper
+    @__config_module_helper ||= ConfigHelper.new
   end
 
   def method_missing name
-    ConfigOption.wrap config.get name
-  rescue ConfigOption::NotFoundError => error
-    if error.name == name then
-      raise ConfigOption::NotFoundError.new(name, self), caller(1)
-    else
-      raise
-    end
+    __config_module_helper.method_missing_handler name, caller(1)
   end
 end
