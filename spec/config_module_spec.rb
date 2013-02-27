@@ -13,12 +13,12 @@ spec 'modules extended with ConfigModule have "namespace" methods' do
   ExampleConfig.methods.include? :namespace
 end
 
-spec 'nested hash values are properly wrapped' do
-  ExampleConfig.dictionary.class == ConfigModule::ConfigOption
+spec 'config modules have [] methods' do
+  ExampleConfig.respond_to? :[]
 end
 
-spec 'config modules have [] methods' do
-  ExampleConfig[:dictionary].keys.include? :configuration
+spec 'nested hash values are properly wrapped' do
+  ExampleConfig.dictionary.class == ConfigModule::ConfigOption
 end
 
 spec 'subkeys are accessible with methods' do
@@ -41,7 +41,7 @@ end
 spec 'missing keys raise exception when called as methods' do
   begin
     FalseNil.nonexistant
-  rescue ConfigModule::ConfigOption::NotFound
+  rescue ConfigModule::ConfigOption::NotFoundError
     true
   end
 end
@@ -54,4 +54,18 @@ end
 
 spec 'multiple namespaces can be set' do
   MultipleExample.configuration == ExampleConfig.dictionary.configuration
+end
+
+module InvalidNamespaceExample
+  extend ConfigModule
+  config_file './config/example.yml'
+  namespace :jimmy, :pop, :ali
+end
+
+spec 'incorrect namespaces raise informative errors' do
+  begin
+    InvalidNamespaceExample.whatever
+  rescue => error
+    error.class == ConfigModule::InvalidNamespaceError
+  end
 end

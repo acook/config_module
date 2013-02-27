@@ -1,6 +1,7 @@
 require_relative 'config_module/version'
 require 'ostruct'
 require 'yaml'
+require 'pry'
 
 module ConfigModule
   def [] key
@@ -31,22 +32,50 @@ private
     file = YAML.load_file(@config_file)
 
     if namespaced? then
-      @namespace.inject(file) do |file, ns|
-        file.include?(ns) && file[ns] || file.include?(ns.to_sym) && file[ns.to_sym]
-      end
+      load_namespaces_from file
     else
       file
     end
   end
 
+  def load_namespaces_from file
+    @namespace.inject(file) do |inner, ns|
+      if inner.respond_to? :[] then
+        inner[ns.to_s] || inner[ns.to_sym]
+      else
+        raise(InvalidNamespaceError.new(ns, inner))
+      end
+    end
+  end
+
   def method_missing name
     ConfigOption.wrap config.get name
-  rescue NoMethodError => error
+  rescue ConfigOption::NotFoundError => error
     if error.name == name then
-      raise NoMethodError, "undefined method `#{name}' for #{self}", caller(1)
+      raise ConfigOption::NotFoundError.new(name, self), caller(1)
     else
       raise
     end
+  end
+
+  class ConfigError < RuntimeError
+    def initialize name, object
+      @name, @object = name, object
+      super "invalid #{identifier} `#{name}' for #{object_info}"
+    end
+    attr :name, :object
+
+    def object_info
+      if object.is_a?(Class) then
+        object.name
+      else
+        "instance of `#{object.class} < #{object.class.superclass}'"
+      end
+    end
+  end
+
+  class InvalidNamespaceError < ConfigError
+    def identifier; :namespace; end
   end
 
   class ConfigOption < OpenStruct
@@ -62,10 +91,12 @@ private
       if @table.include? name then
         self.class.wrap @table[name]
       else
-        raise ConfigOption::NotFound
+        raise ConfigOption::NotFoundError.new name, self
       end
     end
 
-    class NotFound < RangeError; end
+    class NotFoundError < ::ConfigModule::ConfigError
+      def identifier; :key; end
+    end
   end
 end
