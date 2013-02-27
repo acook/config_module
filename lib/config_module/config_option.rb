@@ -20,6 +20,8 @@ module ConfigModule
 
       if result || @table.include?(name) then
         self.class.wrap result
+      elsif name == :to_ary then
+        @table.to_ary
       else
         raise ConfigOption::NotFoundError.new name, self
       end

@@ -1,8 +1,12 @@
 require_relative 'spec_helper'
 
-spec 'ConfigOptions are Enumerable' do
-  hash = {a: 5}
-  opt = ConfigModule::ConfigOption.new hash
+hash = {a: {b: 5}}
+opt = ConfigModule::ConfigOption.new hash
 
-  opt.map{|k,v| v} == [5]
+spec 'ConfigOptions are Enumerable' do
+  opt.map{|k,v| v[:b]} == [5]
+end
+
+spec 'to_ary' do
+  opt.to_ary
 end
