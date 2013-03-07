@@ -3,6 +3,9 @@ ConfigModule
 
 Load important configuration files into their own modules!
 
+[![Code Climate](https://codeclimate.com/github/acook/config_module.png)](https://codeclimate.com/github/acook/config_module)
+[![Dependency Status](https://gemnasium.com/acook/config_module.png)](https://gemnasium.com/acook/config_module)
+
 Installation
 ------------
 
