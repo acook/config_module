@@ -3,6 +3,7 @@ ConfigModule
 
 Load important configuration files into their own modules!
 
+[![Build Status](https://travis-ci.org/acook/config_module.png?branch=master)](https://travis-ci.org/acook/config_module)
 [![Code Climate](https://codeclimate.com/github/acook/config_module.png)](https://codeclimate.com/github/acook/config_module)
 [![Dependency Status](https://gemnasium.com/acook/config_module.png)](https://gemnasium.com/acook/config_module)
 
@@ -42,7 +43,7 @@ You only need to add two lines inside any module definition to make it a ConfigM
   config_file './some_config.yml'
   ```
 
-Done! 
+Done!
 
 You're set up, and you can add any other functionality, aliases, or derived values to your module
 like any other Ruby module.
@@ -50,7 +51,7 @@ like any other Ruby module.
 Usage
 -----
 
-Now give it a try, any [valid](https://github.com/acook/config_module/edit/master/README.markdown#caveats) 
+Now give it a try, any [valid](https://github.com/acook/config_module/edit/master/README.markdown#caveats)
 key in your configuration file will now be a method:
 
 ```ruby
@@ -77,17 +78,17 @@ In addition to the basics, ConfigModule also supplies a couple of helpers you mi
   ```
 
   This will set the root of the tree to whichever branch you specify, so you don't have to.
-  
+
 2. There's also a new method available in your module that points directly to the raw configuration data:
-   
+
   ```ruby
   config
   ```
-  
+
   Don't overwrite this method!
 
 3. You can still access raw data from outside the module too, if you want:
-  
+
   ```ruby
   MyConfig[:some_key].is_a? Hash #=> true
   ```
@@ -135,7 +136,7 @@ Pretty nifty, huh?
 Caveats
 -------
 
-- **Q:** You mention "valid key". What's a valid key? 
+- **Q:** You mention "valid key". What's a valid key?
 - **A:** It's any object that you can call `.to_sym` on!
 
 Who made this anyway?
@@ -144,4 +145,4 @@ Who made this anyway?
 I'm glad you asked!
 
     Anthony M. Cook 2013
-    
+
