@@ -7,8 +7,8 @@ module ConfigModule
       @config ||= ConfigOption.wrap load_config
     end
 
-    def method_missing_handler name, source
-      config.send name
+    def method_missing_handler name, source, *args, &block
+      config.send name, *args, &block
     rescue NoMethodError => error
       if error.name == name then
         raise(

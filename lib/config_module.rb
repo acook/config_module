@@ -8,8 +8,8 @@ require_relative 'config_module/config_option'
 require_relative 'config_module/config_helper'
 
 module ConfigModule
-  def [] key
-    __config_module_helper.field_lookup_handler key, caller(1)
+  def [] key, *args
+    __config_module_helper.field_lookup_handler key, caller(1), *args
   end
 
   def config
@@ -33,7 +33,6 @@ private
   end
 
   def method_missing name, *args, &block
-    super unless args.empty?
-    __config_module_helper.method_missing_handler name, caller(1)
+    __config_module_helper.method_missing_handler name, caller(1), *args
   end
 end

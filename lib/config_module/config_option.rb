@@ -25,8 +25,17 @@ module ConfigModule
       if result || @table.include?(name) then
         self.class.wrap result
       else
-        raise ConfigOption::NotFoundError.new name, self
+        raise(
+          ConfigOption::NotFoundError.new(name, self, caller),
+          "Key not found: #{name}", caller(3)
+        )
       end
+
+    rescue NoMethodError => error
+      raise(
+        ConfigOption::NotFoundError.new(name, self, error),
+        error.message, caller(3)
+      )
     end
 
     def new_ostruct_member name
