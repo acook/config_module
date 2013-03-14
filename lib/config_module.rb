@@ -32,7 +32,8 @@ private
     @__config_module_helper ||= ConfigHelper.new
   end
 
-  def method_missing name
+  def method_missing name, *args, &block
+    super unless args.empty?
     __config_module_helper.method_missing_handler name, caller(1)
   end
 end

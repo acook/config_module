@@ -15,6 +15,10 @@ module ConfigModule
       @table.each_pair{|p| yield p}
     end
 
+    def [] name
+      @table[name.to_sym]
+    end
+
     def method_missing name, *args, &block
       result = super
 
