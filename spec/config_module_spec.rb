@@ -13,12 +13,24 @@ spec 'config modules have [] methods' do
   ExampleConfig.respond_to? :[]
 end
 
+spec 'config modules return correct data using []' do
+  ExampleConfig[:foo] == 'bar'
+end
+
 spec 'nested hash values are properly wrapped' do
   ExampleConfig.dictionary.class == ConfigModule::ConfigOption
 end
 
 spec 'subkeys are accessible with methods' do
   ExampleConfig.dictionary.configuration == 'An arrangement of elements in a particular form, figure, or combination.'
+end
+
+spec 'subkeys work with .each' do
+  text = String.new
+  ExampleConfig.dictionary.each do |entry|
+    text << entry.to_s
+  end
+  text == "[:configuration, \"An arrangement of elements in a particular form, figure, or combination.\"]"
 end
 
 module FalseNil

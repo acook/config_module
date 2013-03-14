@@ -1,10 +1,13 @@
 module ConfigModule
   class ConfigError < NoMethodError
-    def initialize name, object
-      @name, @object = name, object
-      super "invalid #{identifier} `#{name}' for #{object_info}"
+    def initialize name, object, details = nil
+      @name, @object, @details = name, object, details
+      @custom_message = "invalid #{identifier} `#{name}' for #{object_info}"
     end
-    attr :name, :object
+    attr :name, :object, :custom_message, :details
+
+    alias_method :super_message, :message
+    alias_method :message, :custom_message
 
     def object_info
       if object.is_a?(Class) then

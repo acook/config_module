@@ -9,7 +9,7 @@ require_relative 'config_module/config_helper'
 
 module ConfigModule
   def [] key
-    __config_module_helper.config.send key
+    __config_module_helper.field_lookup_handler key, caller(1)
   end
 
   def config
@@ -23,7 +23,7 @@ protected
   end
 
   def namespace *new_namespace
-    __config_module_helper.namespaces = *new_namespace
+    __config_module_helper.namespaces = new_namespace.flatten
   end
 
 private

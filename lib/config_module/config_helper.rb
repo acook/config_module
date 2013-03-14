@@ -11,11 +11,15 @@ module ConfigModule
       config.send name
     rescue NoMethodError => error
       if error.name == name then
-        raise # ConfigOption::NotFoundError.new(name, source)#, source
+        raise(
+          ConfigOption::NotFoundError.new(name, self, error),
+          error.message, source
+        )
       else
         raise
       end
     end
+    alias_method :field_lookup_handler, :method_missing_handler
 
     def load_config
       @raw_config = YAML.load_file config_file
@@ -24,17 +28,20 @@ module ConfigModule
     end
 
     def load_namespaces_from tree
-      return tree unless namespaced?
-
-      Array(namespaces).inject(ConfigOption.wrap tree) do |subtree, ns|
-        raise(InvalidNamespaceError.new(ns, subtree)) unless subtree.respond_to? ns
-
-        subtree.send ns
+      namespaces.inject(ConfigOption.wrap tree) do |subtree, ns|
+        if subtree.respond_to? ns then
+          subtree.send ns
+        else
+          raise(
+            InvalidNamespaceError.new(ns, subtree, caller),
+            "No subkey with name: #{ns.inspect}", caller(6)
+          )
+        end
       end
     end
 
-    def namespaced?
-      !(namespaces.nil? || namespaces.empty?)
+    def namespaces
+      @namespaces ||= Array.new
     end
   end
 end
