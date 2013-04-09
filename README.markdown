@@ -77,7 +77,7 @@ In addition to the basics, ConfigModule also supplies a couple of helpers you mi
   namespace ENV['my_environment']
   ```
 
-  This will set the root of the tree to whichever branch you specify, so you don't have to.
+  This will set the root of the configuration tree to whichever branch you specify, so you don't have to. Check out the example section below to see how it's used.
 
 2. There's also a new method available in your module that points directly to the raw configuration data:
 
@@ -87,12 +87,28 @@ In addition to the basics, ConfigModule also supplies a couple of helpers you mi
 
   Don't overwrite this method!
 
-3. You can still access raw data from outside the module too, if you want:
+3. You can access config options like a hash too, if you want:
 
   ```ruby
   MyConfig[:some_key].is_a? Hash #=> true
   ```
+  
+  This is useful mainly when you want it to return `nil` instead of raising an error for nonexistant keys.
+  
+  ```ruby
+  MyConfig[:nonexistant_key] #=> nil
+  MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
+  ```
+  
+4. Unlike `OpenStruct`, `ConfigOption` is `Enumerable`. 
 
+  ```ruby
+  MyConfig.some_key.each do |subkey|
+    puts subkey
+  end
+  ```
+ 
+ 
 Example
 -------
 
@@ -119,7 +135,13 @@ module ExampleConfig
   module_function
 
   def kanoodle
-    'ka' + config.noodle
+    'ka' + noodle
+  end
+  
+  def all_keys
+    config.map do |key, _|
+      key
+    end
   end
 end
 ```
@@ -128,7 +150,10 @@ Then you can use it like this:
 
 ```ruby
 ExampleConfig.foo       #=> 'bar'
+ExampleConfig[:foo]     #=> 'bar'
+ExampleConfig[:notakey] #=> nil
 ExampleConfig.kanoodle  #=> 'kaboom!'
+ExampleConfig.all_keys  #=> [:foo, :noodle]
 ```
 
 Pretty nifty, huh?
@@ -137,7 +162,7 @@ Caveats
 -------
 
 - **Q:** You mention "valid key". What's a valid key?
-- **A:** It's any object that you can call `.to_sym` on!
+- **A:** It's any object that you can call `.to_sym` on (same as `OpenStruct`)!
 
 Who made this anyway?
 ---------------------
