@@ -51,7 +51,7 @@ like any other Ruby module.
 Usage
 -----
 
-Now give it a try, any [valid](https://github.com/acook/config_module/edit/master/README.markdown#caveats)
+Now give it a try, any [valid](#caveats)
 key in your configuration file will now be a method:
 
 ```ruby
@@ -71,26 +71,62 @@ Extras
 
 In addition to the basics, ConfigModule also supplies a couple of helpers you might find useful.
 
-1. You can also set the "namespace" you want to use, this is great for apps with multiple environments:
+### Namespaces
+
+You can also set the "namespace" you want to use, this is great for apps with different configurations per environment:
 
   ```ruby
   namespace ENV['my_environment']
   ```
 
-  This will set the root of the tree to whichever branch you specify, so you don't have to.
+  This will set the root of the configuration tree to whichever branch you specify, so you don't have to.
 
-2. There's also a new method available in your module that points directly to the raw configuration data:
+  Depending on your configuration file's structure, it might be useful to pull out a deeper subtree, in that case you can include multiple keys separated by commas, or even give it an array.
+
+  Check out the [example section](#example) below to see how it's used.
+
+### The `config` Method
+
+ There's also a new method available in your module that points to the root of your configuration data:
 
   ```ruby
-  config
+  def foo
+    config.foo
+  end
   ```
 
-  Don't overwrite this method!
+### Hash-like Access
 
-3. You can still access raw data from outside the module too, if you want:
+You can access config options like a hash too, if you want:
 
   ```ruby
   MyConfig[:some_key].is_a? Hash #=> true
+  ```
+
+  This is useful mainly when you'd rather get a `nil` instead of raising an error for nonexistant keys:
+  
+  ```ruby
+  MyConfig[:nonexistant_key] #=> nil
+  MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
+  ```
+  
+  It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
+  
+  ```ruby
+  def bar
+    config[:namespace]
+  end
+  ```
+
+
+### Enumerable
+
+  `ConfigOption` is the way ConfigModule packages up subtrees, and unlike `OpenStruct`, it is `Enumerable`:
+
+  ```ruby
+  MyConfig.some_key_with_subkeys.each do |subkey|
+    puts subkey
+  end
   ```
 
 Example
@@ -100,9 +136,10 @@ Given a YAML file `./config/example.yml':
 
 ```yaml
 ---
-:production:
-  :foo: bar
-  :noodle: boom!
+:example:
+  :production:
+    :foo: bar
+    :noodle: boom!
 ```
 
 And you set up your module:
@@ -114,12 +151,18 @@ module ExampleConfig
   extend ConfigModule
 
   config_file './config/example.yml'
-  namespace Rails.env
+  namespace :example, Rails.env
 
   module_function
 
   def kanoodle
-    'ka' + config.noodle
+    'ka' + noodle
+  end
+
+  def all_keys
+    config.map do |key, _|
+      key
+    end
   end
 end
 ```
@@ -128,7 +171,10 @@ Then you can use it like this:
 
 ```ruby
 ExampleConfig.foo       #=> 'bar'
+ExampleConfig[:foo]     #=> 'bar'
+ExampleConfig[:notakey] #=> nil
 ExampleConfig.kanoodle  #=> 'kaboom!'
+ExampleConfig.all_keys  #=> [:foo, :noodle]
 ```
 
 Pretty nifty, huh?
@@ -137,7 +183,7 @@ Caveats
 -------
 
 - **Q:** You mention "valid key". What's a valid key?
-- **A:** It's any object that you can call `.to_sym` on!
+- **A:** It's any object that you can call `.to_sym` on (same as `OpenStruct`)!
 
 Who made this anyway?
 ---------------------
