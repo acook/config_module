@@ -51,7 +51,7 @@ like any other Ruby module.
 Usage
 -----
 
-Now give it a try, any [valid](https://github.com/acook/config_module/edit/master/README.markdown#caveats)
+Now give it a try, any [valid](#caveats)
 key in your configuration file will now be a method:
 
 ```ruby
@@ -83,17 +83,17 @@ You can also set the "namespace" you want to use, this is great for apps with di
 
   Depending on your configuration file's structure, it might be useful to pull out a deeper subtree, in that case you can include multiple keys separated by commas, or even give it an array.
 
-  Check out the example section below to see how it's used.
+  Check out the [example section](#example) below to see how it's used.
 
 ### The `config` Method
 
- There's also a new method available in your module that points directly to the raw configuration data:
+ There's also a new method available in your module that points to the root of your configuration data:
 
   ```ruby
-  config
+  def foo
+    config.foo
+  end
   ```
-
-  Don't overwrite this method!
 
 ### Hash-like Access
 
@@ -103,12 +103,21 @@ You can access config options like a hash too, if you want:
   MyConfig[:some_key].is_a? Hash #=> true
   ```
 
-  This is useful mainly when you'd rather get a `nil` instead of raising an error for nonexistant keys. It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names.
-
+  This is useful mainly when you'd rather get a `nil` instead of raising an error for nonexistant keys:
+  
   ```ruby
   MyConfig[:nonexistant_key] #=> nil
   MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
   ```
+  
+  It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
+  
+  ```ruby
+  def bar
+    config[:namespace]
+  end
+  ```
+
 
 ### Enumerable
 
@@ -119,7 +128,6 @@ You can access config options like a hash too, if you want:
     puts subkey
   end
   ```
-
 
 Example
 -------
