@@ -19,7 +19,10 @@ module ConfigModule
         raise
       end
     end
-    alias_method :field_lookup_handler, :method_missing_handler
+
+    def field_lookup_handler name, source, *args, &block
+      config[name]
+    end
 
     def load_config
       @raw_config = YAML.load_file config_file

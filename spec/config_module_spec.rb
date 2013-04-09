@@ -17,6 +17,10 @@ spec 'config modules return correct data using []' do
   ExampleConfig[:foo] == 'bar'
 end
 
+spec 'when using [], return nil for nonexistant keys' do
+  ExampleConfig[:nonexistant] == nil
+end
+
 spec 'nested hash values are properly wrapped' do
   ExampleConfig.dictionary.class == ConfigModule::ConfigOption
 end
