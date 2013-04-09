@@ -71,15 +71,23 @@ Extras
 
 In addition to the basics, ConfigModule also supplies a couple of helpers you might find useful.
 
-1. You can also set the "namespace" you want to use, this is great for apps with multiple environments:
+### Namespaces
+
+You can also set the "namespace" you want to use, this is great for apps with different configurations per environment:
 
   ```ruby
   namespace ENV['my_environment']
   ```
 
-  This will set the root of the configuration tree to whichever branch you specify, so you don't have to. Check out the example section below to see how it's used.
+  This will set the root of the configuration tree to whichever branch you specify, so you don't have to.
 
-2. There's also a new method available in your module that points directly to the raw configuration data:
+  Depending on your configuration file's structure, it might be useful to pull out a deeper subtree, in that case you can include multiple keys separated by commas, or even give it an array.
+
+  Check out the example section below to see how it's used.
+
+### The `config` Method
+
+ There's also a new method available in your module that points directly to the raw configuration data:
 
   ```ruby
   config
@@ -87,28 +95,32 @@ In addition to the basics, ConfigModule also supplies a couple of helpers you mi
 
   Don't overwrite this method!
 
-3. You can access config options like a hash too, if you want:
+### Hash-like Access
+
+You can access config options like a hash too, if you want:
 
   ```ruby
   MyConfig[:some_key].is_a? Hash #=> true
   ```
-  
-  This is useful mainly when you want it to return `nil` instead of raising an error for nonexistant keys.
-  
+
+  This is useful mainly when you'd rather get a `nil` instead of raising an error for nonexistant keys. It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names.
+
   ```ruby
   MyConfig[:nonexistant_key] #=> nil
   MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
   ```
-  
-4. Unlike `OpenStruct`, `ConfigOption` is `Enumerable`. 
+
+### Enumerable
+
+  `ConfigOption` is the way ConfigModule packages up subtrees, and unlike `OpenStruct`, it is `Enumerable`:
 
   ```ruby
-  MyConfig.some_key.each do |subkey|
+  MyConfig.some_key_with_subkeys.each do |subkey|
     puts subkey
   end
   ```
- 
- 
+
+
 Example
 -------
 
@@ -116,9 +128,10 @@ Given a YAML file `./config/example.yml':
 
 ```yaml
 ---
-:production:
-  :foo: bar
-  :noodle: boom!
+:example:
+  :production:
+    :foo: bar
+    :noodle: boom!
 ```
 
 And you set up your module:
@@ -130,14 +143,14 @@ module ExampleConfig
   extend ConfigModule
 
   config_file './config/example.yml'
-  namespace Rails.env
+  namespace :example, Rails.env
 
   module_function
 
   def kanoodle
     'ka' + noodle
   end
-  
+
   def all_keys
     config.map do |key, _|
       key
