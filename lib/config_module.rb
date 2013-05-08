@@ -1,6 +1,5 @@
 require 'ostruct'
 require 'yaml'
-require 'pry'
 
 require_relative 'config_module/version'
 require_relative 'config_module/exceptions'
