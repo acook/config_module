@@ -15,6 +15,18 @@ spec 'ConfigOptions are Enumerable' do
   opt.map{|k,v| v[:b]} == [5]
 end
 
+spec 'identifies the presence of keys' do
+  opt.has_key? :a
+end
+
+spec 'identifies the lack of keys' do
+  opt.has_key?('nonexistant') == false
+end
+
+spec 'identifies the presence of nested keys' do
+  opt.a.has_key? :b
+end
+
 spec 'to_ary' do
   begin
     opt.to_ary

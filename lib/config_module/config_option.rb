@@ -19,10 +19,14 @@ module ConfigModule
       @table[name.to_sym]
     end
 
+    def has_key? key
+      @table.has_key? key
+    end
+
     def method_missing name, *args, &block
       result = super
 
-      if result || @table.include?(name) then
+      if result || @table.has_key?(name) then
         self.class.wrap result
       else
         raise(
