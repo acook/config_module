@@ -77,25 +77,43 @@ In addition to the basics, ConfigModule also supplies a couple of helpers you mi
 
 You can also set the "namespace" you want to use, this is great for apps with different configurations per environment:
 
-  ```ruby
-  namespace ENV['my_environment']
-  ```
+```ruby
+namespace ENV['my_environment']
+```
 
-  This will set the root of the configuration tree to whichever branch you specify, so you don't have to.
+This will set the root of the configuration tree to whichever branch you specify, so you don't have to.
 
-  Depending on your configuration file's structure, it might be useful to pull out a deeper subtree, in that case you can include multiple keys separated by commas, or even give it an array.
+Depending on your configuration file's structure, it might be useful to pull out a deeper subtree, in that case you can include multiple keys separated by commas, or even give it an array.
 
-  Check out the [example section](#example) below to see how it's used.
+Check out the [example section](#example) below to see how it's used.
 
 ### The `config` Method
 
- There's also a new method available in your module that points to the root of your configuration data:
+There's also a new method available in your module that points to the root of your configuration data:
 
-  ```ruby
-  def foo
-    config.foo
-  end
-  ```
+```ruby
+def foo
+  config.foo
+end
+```
+
+### Check for Presence of Configuration Keys with `has_key?`
+
+There are times you want to provde defaults for values, and in typical Ruby fashion you would probably do this:
+
+```ruby
+MyConfig.some_option || 'my default value'
+```
+
+Occassionally though, that won't be good enough because the value could intentionally be `false` or even `nil`. In those situations, you might want to check to see if the key exists (especially useful along with namespaces). Much like a Hash, you can use the `has_key?` method and do something like:
+
+```ruby
+if MyConfig.has_key? :some_option then
+  MyConfig.some_option
+else
+  'my default value'
+end
+```
 
 ### Hash-like Access
 
@@ -106,14 +124,14 @@ You can access config options like a hash too, if you want:
   ```
 
   This is useful mainly when you'd rather get a `nil` instead of raising an error for nonexistant keys:
-  
+
   ```ruby
   MyConfig[:nonexistant_key] #=> nil
   MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
   ```
-  
+
   It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
-  
+
   ```ruby
   def bar
     config[:namespace]

@@ -15,6 +15,10 @@ module ConfigModule
     __config_module_helper.config
   end
 
+  def has_key? key
+    __config_module_helper.config.has_key? key
+  end
+
 protected
 
   def config_file new_config_file
