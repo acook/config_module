@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Wrap a configuration file in a module for easy use throughout your application. Inspired by Rails.}
   gem.summary       = %q{Load important configuration files into their own modules!}
   gem.homepage      = "http://github.com/acook/config_module"
+  gem.licenses      = %w{MIT LGPL-3}
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
