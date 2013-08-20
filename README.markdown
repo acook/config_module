@@ -5,6 +5,7 @@ Load important configuration files into their own modules!
 
 Reference documentation for the [Latest Released](http://rubydoc.info/gems/config_module/file/README.markdown) and [Edge Version](https://github.com/acook/config_module#readme) is available.
 
+[![Gem Version](https://badge.fury.io/rb/config_module.png)](http://badge.fury.io/rb/config_module)
 [![Build Status](https://travis-ci.org/acook/config_module.png?branch=master)](https://travis-ci.org/acook/config_module)
 [![Code Climate](https://codeclimate.com/github/acook/config_module.png)](https://codeclimate.com/github/acook/config_module)
 [![Dependency Status](https://gemnasium.com/acook/config_module.png)](https://gemnasium.com/acook/config_module)
