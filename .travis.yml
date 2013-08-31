@@ -5,12 +5,8 @@ rvm:
   - 1.9.2
   - rbx-19mode
   
-  - 1.8.7
   - ruby-head
-  - jruby-18mode
   - jruby-19mode
-  - rbx-18mode
-  
   
 script: bundle exec ruby spec/run_all_specs.rb
 before_install:
@@ -21,8 +17,4 @@ before_script:
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: 1.8.7
-    - rvm: ruby-head
-    - rvm: jruby-18mode
     - rvm: jruby-19mode
-    - rvm: rbx-18mode
