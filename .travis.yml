@@ -13,8 +13,15 @@ before_install:
   - gem update bundler
 before_script:
   - bundle exec gem list
+after_script:
+  - ls -A
 
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-19mode
+
+addons:
+  code_climate:
+    repo_token:
+      secure: "WonrzRifssblPi89TfgQvfRlWGfh8TqYtS0Vs6vSk8GfHwUIV1doaW9utQ0cvQrYNWS6xQzRdwk1QOwzvDhL0PnHSPd3bdSXJ4EW5RVWZNk4rsO4b9S1ksSL8ilSndIuJ41cfUvJPMpTvtc+cZnBehGb8rrf9sfV1hP8zq2Nn+o="
