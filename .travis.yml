@@ -19,6 +19,8 @@ matrix:
     - rvm: ruby-head
     - rvm: jruby-19mode
 
+sudo: false
+
 addons:
   code_climate:
     repo_token:
