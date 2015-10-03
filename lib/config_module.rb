@@ -44,7 +44,7 @@ private
   def setup &block
     options = {
       method_name: 'config',
-      file_path: './config/settings.yml',
+      path: './config/settings.yml',
     }
 
     setup_dsl = Class.new do
@@ -52,8 +52,12 @@ private
         options[:method_name] = new_name
       end
 
-      def file_path new_path
-        options[:file_path] = new_path
+      def path new_path
+        options[:path] = new_path
+      end
+
+      def namespaces new_namespaces
+        options[:namespaces] = new_namespaces.flatten
       end
 
       def options
@@ -67,6 +71,17 @@ private
 
     Module.new do
       @options = options
+
+      define_method options[:method_name] do
+        __config_module_helper.config
+      end
+
+      def self.extended child
+        child.extend ConfigModule
+        helper = child.send(:__config_module_helper)
+        helper.config_file = @options[:path]
+        helper.namespaces  = @options[:namespaces]
+      end
     end
   end
 end
