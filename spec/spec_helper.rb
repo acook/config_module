@@ -1,5 +1,13 @@
 require 'bundler/setup'
+if ENV['CI'] == 'true' then
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+  CodeClimate::TestReporter.configure do |config|
+    config.git_dir = `git rev-parse --show-toplevel`.strip
+  end
+end
 require 'uspec'
+
 
 Dir.chdir File.dirname(__FILE__)
 
