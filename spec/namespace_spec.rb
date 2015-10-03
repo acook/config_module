@@ -30,7 +30,20 @@ spec 'misconfigured namespaces provide useful errors' do
   begin
     helper.config
   rescue ConfigModule::InvalidNamespaceError => error
-    error.super_message == 'No subkey with name: "nonexistant"' &&
-    error.message == "invalid namespace `nonexistant' for instance of `ConfigModule::ConfigOption < OpenStruct'"
+    error.is_a?(ConfigModule::InvalidNamespaceError) &&
+      error.message.include?('nonexistant') || error.message
+  end
+end
+
+spec 'invalid namespaces which are ruby objects display properly' do
+  helper = ConfigModule::ConfigHelper.new
+  helper.config_file = './config/example.yml'
+  helper.namespaces = [Array,Hash]
+
+  begin
+    helper.config
+  rescue ConfigModule::InvalidNamespaceError => error
+    error.is_a?(ConfigModule::InvalidNamespaceError) &&
+      error.message.include?('Array') || error.message
   end
 end

@@ -41,6 +41,11 @@ module ConfigModule
           )
         end
       end
+    rescue TypeError => error
+      raise(
+        InvalidNamespaceError.new(namespaces.first, self, caller),
+        "Namespace must be a string or symbol, instead it was: #{namespaces.first.class}", caller(6)
+      )
     end
 
     def namespaces
