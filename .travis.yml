@@ -13,8 +13,6 @@ before_install:
   - gem update bundler
 before_script:
   - bundle exec gem list
-after_script:
-  - ls -A
 
 matrix:
   allow_failures:

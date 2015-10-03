@@ -1,11 +1,14 @@
-engines:
-  rubocop:
-    enabled: true
+#engines:
+#  rubocop:
+#    enabled: true
+#
+#ratings:
+#  paths:
+#    - lib/**
+#    - "**.rb"
 
-ratings:
-  paths:
-    - lib/**
-    - "**.rb"
+languages:
+  Ruby: true
 
 exclude_paths:
   - spec/**/*
