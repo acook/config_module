@@ -7,11 +7,7 @@ module ConfigModule
     attr :name, :object, :details
 
     def custom_message
-      if super_message then
-        @custom_message + "\n#{super_message}"
-      else
-        @custom_message
-      end
+      @custom_message + "\n#{super_message}"
     end
 
     alias_method :super_message, :message
