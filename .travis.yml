@@ -8,11 +8,11 @@ rvm:
   - ruby-head
   - jruby-19mode
 
-script: bundle exec ruby spec/run_all_specs.rb
 before_install:
   - gem update bundler
 before_script:
   - bundle exec gem list
+script: bundle exec ruby uspec/run_all_specs.rb
 
 matrix:
   allow_failures:
