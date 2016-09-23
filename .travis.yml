@@ -2,24 +2,22 @@ language: ruby
 rvm:
   - 2.2.3
   - 2.0.0
-  - 1.9.3
-  - 1.9.2
 
   - ruby-head
-  - jruby-19mode
-
-script: bundle exec ruby spec/run_all_specs.rb
-before_install:
-  - gem update bundler
-before_script:
-  - bundle exec gem list
+  - jruby-21mode
 
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-19mode
+    - rvm: jruby-21mode
 
 sudo: false
+
+before_install:
+  - gem update bundler
+before_script:
+  - bundle exec gem list
+script: bundle exec ruby uspec/run_all_specs.rb
 
 addons:
   code_climate:
