@@ -1,14 +1,16 @@
-#engines:
-#  rubocop:
-#    enabled: true
-#
-#ratings:
-#  paths:
-#    - lib/**
-#    - "**.rb"
-
-languages:
-  Ruby: true
-
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+  rubocop:
+    enabled: true
+  reek:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
 exclude_paths:
-  - spec/**/*
+- "uspec/**/*"
