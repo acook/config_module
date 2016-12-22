@@ -1,12 +1,10 @@
 require 'bundler/setup'
 require 'uspec'
+Bundler.require :default, :test
 
 if ENV['CI'] == 'true' then
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
-  CodeClimate::TestReporter.configure do |config|
-    config.git_dir = `git rev-parse --show-toplevel`.strip
-  end
+  require 'simplecov'
+  SimpleCov.start
 end
 
 Dir.chdir File.dirname(__FILE__)
