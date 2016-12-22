@@ -21,7 +21,7 @@ before_install:
   - gem update bundler
 before_script:
   - bundle exec gem list
-script: bundle exec ruby uspec/run_all_specs.rb
+script: bundle exec uspec
 
 addons:
   code_climate:
