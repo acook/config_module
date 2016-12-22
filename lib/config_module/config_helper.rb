@@ -32,8 +32,8 @@ module ConfigModule
 
     def load_namespaces_from tree
       namespaces.inject(ConfigOption.wrap tree) do |subtree, ns|
-        if subtree.respond_to? ns then
-          subtree.send ns
+        if ConfigOption === subtree && ns.respond_to?(:to_sym) && subtree.has_key?(ns)
+          ConfigOption.wrap subtree[ns]
         else
           raise(
             InvalidNamespaceError.new(ns, subtree, caller),

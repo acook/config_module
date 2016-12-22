@@ -19,6 +19,10 @@ spec 'identifies the presence of keys' do
   opt.has_key? :a
 end
 
+spec 'identifies the presence of keys as strings' do
+  opt.has_key? 'a'
+end
+
 spec 'identifies the lack of keys' do
   opt.has_key?('nonexistant') == false
 end
@@ -34,4 +38,3 @@ spec 'to_ary' do
     error.class == ConfigModule::ConfigOption::NotFoundError
   end
 end
-
