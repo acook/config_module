@@ -10,4 +10,3 @@ spec 'method_missing_handler traces back to the caller' do
     error.backtrace.to_s.include? "spec/config_helper_spec.rb:6:in"
   end
 end
-

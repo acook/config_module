@@ -22,6 +22,14 @@ spec 'specifying a namespace forces #config to return that subtree the first tim
   symbolized_keys_from_full_config == table.keys
 end
 
+spec 'nested namespaces are handled properly' do
+  helper = ConfigModule::ConfigHelper.new
+  helper.config_file = './config/example.yml'
+  helper.namespaces = ['production', 'dictionary']
+  helper.config.has_key?('configuration') &&
+    helper.config[:configuration] == helper.raw_config['production']['dictionary']['configuration']
+end
+
 spec 'misconfigured namespaces provide useful errors' do
   helper = ConfigModule::ConfigHelper.new
   helper.config_file = './config/example.yml'
@@ -32,6 +40,19 @@ spec 'misconfigured namespaces provide useful errors' do
   rescue ConfigModule::InvalidNamespaceError => error
     error.is_a?(ConfigModule::InvalidNamespaceError) &&
       error.message.include?('nonexistant') || error.message
+  end
+end
+
+spec 'out of bounds namespaces are checked properly' do
+  helper = ConfigModule::ConfigHelper.new
+  helper.config_file = './config/example.yml'
+  helper.namespaces = ['production', 'foo', 'bar']
+
+  begin
+    helper.config
+  rescue ConfigModule::InvalidNamespaceError => error
+    error.is_a?(ConfigModule::InvalidNamespaceError) &&
+      error.message.include?('bar') || error.message
   end
 end
 

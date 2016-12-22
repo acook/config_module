@@ -20,7 +20,7 @@ module ConfigModule
     end
 
     def has_key? key
-      @table.has_key? key
+      @table.has_key? key.to_sym
     end
 
     def method_missing name, *args, &block
