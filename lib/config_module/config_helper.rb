@@ -8,7 +8,7 @@ module ConfigModule
     end
 
     def method_missing_handler name, source, *args, &block
-      config.send name, *args, &block
+      ConfigOption.wrap config.send(name, *args, &block)
     rescue NoMethodError => error
       if error.name == name then
         raise(
