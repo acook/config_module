@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module ConfigModule
   class ConfigOption < OpenStruct
     include Enumerable
 
     def self.wrap data
-      if data.is_a? Hash then
+      if data.is_a? Hash
         ConfigOption.new data
       else
         data
@@ -12,7 +14,7 @@ module ConfigModule
 
     def each
       return to_enum __method__ unless block_given?
-      @table.each_pair{|p| yield p}
+      @table.each_pair { |p| yield p }
     end
 
     def [] name
@@ -26,7 +28,7 @@ module ConfigModule
     def method_missing name, *args, &block
       result = super
 
-      if result || @table.has_key?(name) then
+      if result || @table.has_key?(name)
         self.class.wrap result
       else
         raise(
