@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module ConfigModule
   class ConfigError < NoMethodError
     def initialize name, object, details = nil
       @name, @object, @details = name, object, details
       @custom_message = "invalid #{identifier} `#{name}' for #{object_info}"
     end
-    attr :name, :object, :details
+    attr_reader :name, :object, :details
 
     def custom_message
       @custom_message + "\n#{super_message}"
@@ -14,7 +16,7 @@ module ConfigModule
     alias_method :message, :custom_message
 
     def object_info
-      if object.is_a?(Class) then
+      if object.is_a?(Class)
         object.name
       else
         "instance of `#{object.class} < #{object.class.superclass}'"
