@@ -10,7 +10,6 @@ Reference documentation for the [Latest Released](http://rubydoc.info/gems/confi
 [![Build Status](https://travis-ci.org/acook/config_module.svg?branch=master)](https://travis-ci.org/acook/config_module)
 [![Code Climate](https://codeclimate.com/github/acook/config_module/badges/gpa.svg)](https://codeclimate.com/github/acook/config_module)
 [![Test Coverage](https://codeclimate.com/github/acook/config_module/badges/coverage.svg)](https://codeclimate.com/github/acook/config_module/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/acook/config_module.svg)](https://gemnasium.com/github.com/acook/config_module)
 
 Installation
 ------------
