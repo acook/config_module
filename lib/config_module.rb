@@ -1,10 +1,12 @@
-require 'ostruct'
-require 'yaml'
+# frozen_string_literal: true
 
-require_relative 'config_module/version'
-require_relative 'config_module/exceptions'
-require_relative 'config_module/config_option'
-require_relative 'config_module/config_helper'
+require "ostruct"
+require "yaml"
+
+require_relative "config_module/version"
+require_relative "config_module/exceptions"
+require_relative "config_module/config_option"
+require_relative "config_module/config_helper"
 
 module ConfigModule
   def [] key, *args
@@ -36,6 +38,6 @@ private
   end
 
   def method_missing name, *args, &block
-    __config_module_helper.method_missing_handler name, caller(1), *args
+    __config_module_helper.method_missing_handler name, caller(1), *args, &block
   end
 end

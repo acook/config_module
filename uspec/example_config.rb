@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module ExampleConfig
   extend ConfigModule
 
-  config_file './config/example.yml'
+  config_file "./config/example.yml"
   namespace Rails.env
 
-  module_function
+module_function
 
   def kanoodle
-    'ka' + config.noodle
+    "ka" + config.noodle
   end
 end

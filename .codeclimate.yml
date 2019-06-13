@@ -7,6 +7,7 @@ engines:
       - ruby
   rubocop:
     enabled: true
+    channel: rubocop-0-50
   reek:
     enabled: true
 ratings:

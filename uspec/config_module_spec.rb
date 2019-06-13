@@ -1,56 +1,58 @@
-require_relative 'spec_helper'
-require_relative 'example_config'
+# frozen_string_literal: true
 
-spec 'modules extended with ConfigModule will load configurations' do
-  ExampleConfig.foo == 'bar'
+require_relative "spec_helper"
+require_relative "example_config"
+
+spec "modules extended with ConfigModule will load configurations" do
+  ExampleConfig.foo == "bar"
 end
 
-spec 'modules extended with ConfigModule have "namespace" methods' do
+spec "modules extended with ConfigModule have 'namespace' methods" do
   ExampleConfig.methods.include? :namespace
 end
 
-spec 'config modules have [] methods' do
+spec "config modules have [] methods" do
   ExampleConfig.respond_to? :[]
 end
 
-spec 'config modules return correct data using []' do
-  ExampleConfig[:foo] == 'bar'
+spec "config modules return correct data using []" do
+  ExampleConfig[:foo] == "bar"
 end
 
-spec 'when using [], return nil for nonexistant keys' do
-  ExampleConfig[:nonexistant] == nil
+spec "when using [], return nil for nonexistant keys" do
+  ExampleConfig[:nonexistant].nil?
 end
 
-spec 'nested hash values are properly wrapped' do
+spec "nested hash values are properly wrapped" do
   ExampleConfig.dictionary.class == ConfigModule::ConfigOption
 end
 
-spec 'subkeys are accessible with methods' do
-  ExampleConfig.dictionary.configuration == 'An arrangement of elements in a particular form, figure, or combination.'
+spec "subkeys are accessible with methods" do
+  ExampleConfig.dictionary.configuration == "An arrangement of elements in a particular form, figure, or combination."
 end
 
-spec 'subkeys work with .each' do
-  text = String.new
+spec "subkeys work with .each" do
+  text = []
   ExampleConfig.dictionary.each do |entry|
     text << entry.to_s
   end
-  text == "[:configuration, \"An arrangement of elements in a particular form, figure, or combination.\"]"
+  text.join == "[:configuration, \"An arrangement of elements in a particular form, figure, or combination.\"]"
 end
 
 module FalseNil
   extend ConfigModule
-  config_file './config/false_nil.yml'
+  config_file "./config/false_nil.yml"
 end
 
-spec 'false values are returned' do
+spec "false values are returned" do
   FalseNil.f == false
 end
 
-spec 'nil values are preserved' do
-  FalseNil.n == nil
+spec "nil values are preserved" do
+  FalseNil.n.nil?
 end
 
-spec 'missing keys raise exception when called as methods' do
+spec "missing keys raise exception when called as methods" do
   begin
     FalseNil.nonexistant
   rescue ConfigModule::ConfigOption::NotFoundError
@@ -60,24 +62,24 @@ end
 
 module MultipleExample
   extend ConfigModule
-  config_file './config/example.yml'
+  config_file "./config/example.yml"
   namespace :production, :dictionary
 end
 
-spec 'multiple namespaces can be set' do
+spec "multiple namespaces can be set" do
   MultipleExample.configuration == ExampleConfig.dictionary.configuration
 end
 
 module InvalidNamespaceExample
   extend ConfigModule
-  config_file './config/example.yml'
+  config_file "./config/example.yml"
   namespace :jimmy, :pop, :ali
 end
 
-spec 'incorrect namespaces raise informative errors' do
+spec "incorrect namespaces raise informative errors" do
   begin
     InvalidNamespaceExample.whatever
-  rescue => error
-    error.class == ConfigModule::InvalidNamespaceError
+  rescue ConfigModule::InvalidNamespaceError
+    true
   end
 end
