@@ -39,8 +39,7 @@ spec "misconfigured namespaces provide useful errors" do
   begin
     helper.config
   rescue ConfigModule::InvalidNamespaceError => error
-    error.is_a?(ConfigModule::InvalidNamespaceError) &&
-      error.message.include?("nonexistant") || error.message
+    error.message.include?("nonexistant") || error.message
   end
 end
 
@@ -52,8 +51,7 @@ spec "out of bounds namespaces are checked properly" do
   begin
     helper.config
   rescue ConfigModule::InvalidNamespaceError => error
-    error.is_a?(ConfigModule::InvalidNamespaceError) &&
-      error.message.include?("bar") || error.message
+    error.message.include?("bar") || error.message
   end
 end
 
@@ -65,7 +63,6 @@ spec "invalid namespaces which are ruby objects display properly" do
   begin
     helper.config
   rescue ConfigModule::InvalidNamespaceError => error
-    error.is_a?(ConfigModule::InvalidNamespaceError) &&
-      error.message.include?("Array") || error.message
+    error.message.include?("Array") || error.message
   end
 end

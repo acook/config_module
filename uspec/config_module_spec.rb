@@ -27,7 +27,17 @@ spec "nested hash values are properly wrapped" do
   ExampleConfig.dictionary.class == ConfigModule::ConfigOption
 end
 
+spec "nested hash values stay wrapped on subsequent calls" do
+  ExampleConfig.dictionary.class == ConfigModule::ConfigOption &&
+    ExampleConfig.dictionary.class == ConfigModule::ConfigOption
+end
+
 spec "subkeys are accessible with methods" do
+  ExampleConfig.dictionary.configuration == "An arrangement of elements in a particular form, figure, or combination."
+end
+
+spec "subkeys are accessible with methods on subsequent calls" do
+  ExampleConfig.dictionary.configuration
   ExampleConfig.dictionary.configuration == "An arrangement of elements in a particular form, figure, or combination."
 end
 
