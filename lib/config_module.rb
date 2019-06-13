@@ -6,6 +6,8 @@ require_relative 'config_module/exceptions'
 require_relative 'config_module/config_option'
 require_relative 'config_module/config_helper'
 
+puts "stupid test thing"
+
 module ConfigModule
   def [] key, *args
     __config_module_helper.field_lookup_handler key, caller(1), *args
