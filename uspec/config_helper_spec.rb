@@ -9,6 +9,6 @@ spec "method_missing_handler traces back to the caller" do
   begin
     helper.method_missing_handler :nonexistant, caller(1)
   rescue NoMethodError => error
-    error.backtrace.to_s.include? "spec/config_helper_spec.rb:8:in"
+    error.backtrace.to_s.include?("spec/config_helper_spec.rb:8:in") || error.backtrace
   end
 end

@@ -36,7 +36,7 @@ end
 spec "to_ary" do
   begin
     opt.to_ary
-  rescue NoMethodError => error
-    error.class == ConfigModule::ConfigOption::NotFoundError
+  rescue ConfigModule::ConfigOption::NotFoundError
+    true
   end
 end
