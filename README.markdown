@@ -11,7 +11,6 @@ Reference documentation for the [Latest Released](http://rubydoc.info/gems/confi
 [![CircleCI](https://circleci.com/gh/acook/config_module.svg?style=svg)](https://circleci.com/gh/acook/config_module)
 [![Code Climate](https://codeclimate.com/github/acook/config_module/badges/gpa.svg)](https://codeclimate.com/github/acook/config_module)
 [![Test Coverage](https://codeclimate.com/github/acook/config_module/badges/coverage.svg)](https://codeclimate.com/github/acook/config_module/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/acook/config_module.svg)](https://gemnasium.com/github.com/acook/config_module)
 
 Installation
 ------------
