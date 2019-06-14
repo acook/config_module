@@ -5,6 +5,10 @@ require_relative "spec_helper"
 hash = { a: { b: 5 } }
 opt = ConfigModule::ConfigOption.new hash
 
+spec "includes Enumerable (deprecated)" do
+  ConfigModule::ConfigOption.include?(Enumerable)
+end
+
 spec "responds to #[]" do
   opt.respond_to? :[]
 end
