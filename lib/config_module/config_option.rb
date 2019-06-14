@@ -2,6 +2,8 @@
 
 module ConfigModule
   class ConfigOption < OpenStruct
+    include Enumerable
+
     def self.wrap data
       if data.is_a? Hash
         new data
@@ -58,6 +60,11 @@ module ConfigModule
       )
     end
 
+    def respond_to_missing? name, include_all
+      @table.has_key?(name) || super
+    end
+    private :respond_to_missing?
+
     if private_instance_methods.include? :new_ostruct_member!
       # :reek:TooManyStatements { max_statements: 10 }
       def new_ostruct_member! name
@@ -84,12 +91,6 @@ module ConfigModule
       protected :new_ostruct_member
     end
 
-  private
-
-    def respond_to_missing? name, include_all
-      @table.has_key?(name) || super
-    end
-    
     class NotFoundError < ::ConfigModule::ConfigError
       def identifier; :key; end
     end
