@@ -14,6 +14,7 @@ module ConfigModule
 
     def each_pair
       return to_enum(__method__) { @table.size } unless block_given?
+
       @table.each_pair { |pair| yield pair }
       self
     end
@@ -21,12 +22,14 @@ module ConfigModule
 
     def each_key
       return to_enum(__method__) { @table.size } unless block_given?
+
       @table.each_key { |key| yield key }
       self
     end
 
     def each_value
       return to_enum(__method__) { @table.size } unless block_given?
+
       @table.each_value { |value| yield value }
       self
     end

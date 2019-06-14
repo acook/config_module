@@ -13,14 +13,12 @@ module ConfigModule
     def method_missing_handler name, source, *args, &block
       ConfigOption.wrap config.send(name, *args, &block)
     rescue NoMethodError => error
-      if error.name == name
-        raise(
-          ConfigOption::NotFoundError.new(name, self, error),
-          error.message, source
-        )
-      else
-        raise
-      end
+      raise unless error.name == name
+
+      raise(
+        ConfigOption::NotFoundError.new(name, self, error),
+        error.message, source
+      )
     end
 
     def respond_to_missing_handler name, include_all
