@@ -84,14 +84,14 @@ module ConfigModule
       protected :new_ostruct_member
     end
 
-    class NotFoundError < ::ConfigModule::ConfigError
-      def identifier; :key; end
-    end
-
   private
 
     def respond_to_missing? name, include_all
       @table.has_key?(name) || super
+    end
+    
+    class NotFoundError < ::ConfigModule::ConfigError
+      def identifier; :key; end
     end
   end
 end
