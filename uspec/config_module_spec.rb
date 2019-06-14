@@ -49,6 +49,16 @@ spec "subkeys work with .each" do
   text.join == "[:configuration, \"An arrangement of elements in a particular form, figure, or combination.\"]"
 end
 
+spec "respond_to? works for top-level methods" do
+  ExampleConfig.respond_to?(:dictionary) &&
+    !ExampleConfig.respond_to?(:nonexistant)
+end
+
+spec "respond_to? works for subkey methods" do
+  ExampleConfig.dictionary.respond_to?(:configuration) &&
+    !ExampleConfig.dictionary.respond_to?(:nonexistant)
+end
+
 module FalseNil
   extend ConfigModule
   config_file "./config/false_nil.yml"

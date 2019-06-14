@@ -44,6 +44,10 @@ module ConfigModule
       )
     end
 
+    def respond_to_missing? name, include_all
+      @table.has_key?(name) || super
+    end
+
     def new_ostruct_member name
       name = name.to_sym
       unless respond_to? name

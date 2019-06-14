@@ -19,10 +19,6 @@ Style/PreferredHashMethods:
 Style/Documentation:
   Enabled: false
 
-# FIXME: See issue #5
-Style/MethodMissing:
-  Enabled: false
-
 Style/MethodDefParentheses:
   Enabled: false
 

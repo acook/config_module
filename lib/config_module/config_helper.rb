@@ -23,6 +23,10 @@ module ConfigModule
       end
     end
 
+    def respond_to_missing_handler name, include_all
+      config.send(:respond_to_missing?, name, include_all)
+    end
+
     def field_lookup_handler name, _source, *_args, &_block
       config[name]
     end

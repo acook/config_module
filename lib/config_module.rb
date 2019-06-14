@@ -37,7 +37,13 @@ private
     @__config_module_helper ||= ConfigHelper.new
   end
 
+  # rubocop:disable Style/MethodMissing
   def method_missing name, *args, &block
     __config_module_helper.method_missing_handler name, caller(1), *args, &block
+  end
+  # rubocop:enable Style/MethodMissing
+
+  def respond_to_missing? name, include_all
+    __config_module_helper.respond_to_missing_handler(name, include_all) || super
   end
 end
