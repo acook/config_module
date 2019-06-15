@@ -47,12 +47,12 @@ private
     __config_module_helper.respond_to_missing_handler(name, include_all) || super
   end
 
-  module_function
+module_function
 
   def setup &block
     options = {
-      method_name: 'config',
-      path: './config/settings.yml',
+      method_name: "config",
+      path: "./config/settings.yml",
     }
 
     setup_dsl = Class.new do
@@ -69,12 +69,12 @@ private
       end
 
       def options
-        @options ||= Hash.new
+        @options ||= {}
       end
     end
 
-    if block_given? then
-      options.merge! setup_dsl.new.tap{|dsl| dsl.instance_eval &block}.options
+    if block_given?
+      options.merge! setup_dsl.new.tap { |dsl| dsl.instance_eval(&block) }.options
     end
 
     Module.new do
