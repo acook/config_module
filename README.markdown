@@ -102,13 +102,7 @@ end
 
 ### Check for Presence of Configuration Keys with `has_key?`
 
-There are times you want to provde defaults for values, and in typical Ruby fashion you would probably do this:
-
-```ruby
-MyConfig.some_option || 'my default value'
-```
-
-Occassionally though, that won't be good enough because the value could intentionally be `false` or even `nil`. In those situations, you might want to check to see if the key exists (especially useful along with namespaces). Much like a Hash, you can use the `has_key?` method and do something like:
+You might want to check to see if the key exists (especially useful along with namespaces) before calling the method. Much like a Hash, you can use the `has_key?` method and do something like:
 
 ```ruby
 if MyConfig.has_key? :some_option then
@@ -133,13 +127,15 @@ You can access config options like a hash too, if you want:
   MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
   ```
 
-  It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
+  It'll also avoid any naming conflicts that might arise between methods names and key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
 
   ```ruby
   def bar
-    config[:namespace]
+    config[:my_key]
   end
   ```
+  
+  Lastly, it also doesn't wrap the returned value in a `ConfigOption`, it will return the underlying value such as a `Hash` directly.
 
 
 ### Enumerable
@@ -211,7 +207,6 @@ Caveats
 Who made this anyway?
 ---------------------
 
-I'm glad you asked!
-
-    Anthony M. Cook 2016
+    © 2016-2019 Anthony M. Cook
+    Contributors: Brian Hawley
 
