@@ -8,7 +8,7 @@ Reference documentation for the [Latest Released](http://rubydoc.info/gems/confi
 [![Gem Version](https://img.shields.io/gem/v/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
 [![Gem Downloads](https://img.shields.io/gem/dt/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
 [![Build Status](https://img.shields.io/travis/acook/config_module.svg?style=for-the-badge)](https://travis-ci.org/acook/config_module)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/acook/config_module.svg?style=for-the-badge)](https://codeclimate.com/github/acook/config_module)
+[![Maintainability](https://api.codeclimate.com/v1/badges/14d47ea9d0e90d40154d/maintainability)](https://codeclimate.com/github/acook/config_module/maintainability)
 [![CircleCI](https://circleci.com/gh/acook/config_module.svg?style=svg)](https://circleci.com/gh/acook/config_module)
 
 Installation
