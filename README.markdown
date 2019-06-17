@@ -5,12 +5,11 @@ Load important configuration files into their own modules!
 
 Reference documentation for the [Latest Released](http://rubydoc.info/gems/config_module/file/README.markdown) and [Edge Version](https://github.com/acook/config_module#readme) is available.
 
-[![Gem Version](https://img.shields.io/gem/v/config_module.svg)](https://rubygems.org/gems/config_module)
-[![Gem Downloads](https://img.shields.io/gem/dt/config_module.svg?maxAge=2592000)](https://rubygems.org/gems/config_module)
-[![Build Status](https://travis-ci.org/acook/config_module.svg?branch=master)](https://travis-ci.org/acook/config_module)
+[![Gem Version](https://img.shields.io/gem/v/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
+[![Gem Downloads](https://img.shields.io/gem/dt/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
+[![Build Status](https://img.shields.io/travis/acook/config_module.svg?style=for-the-badge)](https://travis-ci.org/acook/config_module)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/acook/config_module.svg?style=for-the-badge)](https://codeclimate.com/github/acook/config_module)
 [![CircleCI](https://circleci.com/gh/acook/config_module.svg?style=svg)](https://circleci.com/gh/acook/config_module)
-[![Code Climate](https://codeclimate.com/github/acook/config_module/badges/gpa.svg)](https://codeclimate.com/github/acook/config_module)
-[![Test Coverage](https://codeclimate.com/github/acook/config_module/badges/coverage.svg)](https://codeclimate.com/github/acook/config_module/coverage)
 
 Installation
 ------------
