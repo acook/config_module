@@ -5,12 +5,11 @@ Load important configuration files into their own modules!
 
 Reference documentation for the [Latest Released](http://rubydoc.info/gems/config_module/file/README.markdown) and [Edge Version](https://github.com/acook/config_module#readme) is available.
 
-[![Gem Version](https://img.shields.io/gem/v/config_module.svg)](https://rubygems.org/gems/config_module)
-[![Gem Downloads](https://img.shields.io/gem/dt/config_module.svg?maxAge=2592000)](https://rubygems.org/gems/config_module)
-[![Build Status](https://travis-ci.org/acook/config_module.svg?branch=master)](https://travis-ci.org/acook/config_module)
+[![Gem Version](https://img.shields.io/gem/v/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
+[![Gem Downloads](https://img.shields.io/gem/dt/config_module.svg?style=for-the-badge)](https://rubygems.org/gems/config_module)
+[![Build Status](https://img.shields.io/travis/acook/config_module.svg?style=for-the-badge)](https://travis-ci.org/acook/config_module)
+[![Maintainability](https://api.codeclimate.com/v1/badges/14d47ea9d0e90d40154d/maintainability)](https://codeclimate.com/github/acook/config_module/maintainability)
 [![CircleCI](https://circleci.com/gh/acook/config_module.svg?style=svg)](https://circleci.com/gh/acook/config_module)
-[![Code Climate](https://codeclimate.com/github/acook/config_module/badges/gpa.svg)](https://codeclimate.com/github/acook/config_module)
-[![Test Coverage](https://codeclimate.com/github/acook/config_module/badges/coverage.svg)](https://codeclimate.com/github/acook/config_module/coverage)
 
 Installation
 ------------
@@ -102,13 +101,7 @@ end
 
 ### Check for Presence of Configuration Keys with `has_key?`
 
-There are times you want to provde defaults for values, and in typical Ruby fashion you would probably do this:
-
-```ruby
-MyConfig.some_option || 'my default value'
-```
-
-Occassionally though, that won't be good enough because the value could intentionally be `false` or even `nil`. In those situations, you might want to check to see if the key exists (especially useful along with namespaces). Much like a Hash, you can use the `has_key?` method and do something like:
+You might want to check to see if the key exists (especially useful along with namespaces) before calling the method. Much like a Hash, you can use the `has_key?` method and do something like:
 
 ```ruby
 if MyConfig.has_key? :some_option then
@@ -133,13 +126,15 @@ You can access config options like a hash too, if you want:
   MyConfig.nonexistant_key   #=> raises ConfigModule::ConfigOption::NotFoundError
   ```
 
-  It'll also avoid any naming conflicts that might arise between methods defined on ConfigModule or ConfigOption and your key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
+  It'll also avoid any naming conflicts that might arise between methods names and key names. You can use it in concert with the above `config` method instead of `self` to enhance readability:
 
   ```ruby
   def bar
-    config[:namespace]
+    config[:my_key]
   end
   ```
+  
+  Lastly, it also doesn't wrap the returned value in a `ConfigOption`, it will return the underlying value such as a `Hash` directly.
 
 
 ### Enumerable
@@ -211,7 +206,6 @@ Caveats
 Who made this anyway?
 ---------------------
 
-I'm glad you asked!
-
-    Anthony M. Cook 2016
+    © 2016-2019 Anthony M. Cook
+    Contributors: Brian Hawley
 
