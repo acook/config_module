@@ -103,3 +103,13 @@ spec "incorrect namespaces raise informative errors" do
     true
   end
 end
+
+module EmptyExample
+  extend ConfigModule
+  config_file "./config/empty.yml"
+end
+
+spec "empty config file becomes empty config" do
+  EmptyExample.config.class == ConfigModule::ConfigOption &&
+    EmptyExample.config.each.to_a == []
+end

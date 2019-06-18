@@ -30,7 +30,14 @@ module ConfigModule
     end
 
     def load_config
-      @raw_config = YAML.load_file config_file
+      @raw_config =
+        if YAML::VERSION >= "3.0.2"
+          YAML.load_file config_file, fallback: {}
+        elsif YAML::VERSION >= "2.1.0"
+          YAML.load_file config_file, {}
+        else
+          YAML.load_file(config_file) || {} # ambiguous with false or nil value
+        end
 
       load_namespaces_from raw_config
     end
