@@ -30,15 +30,10 @@ module ConfigModule
     end
 
     def load_config
-      @raw_config =
-        if YAML::VERSION >= "3.0.2"
-          YAML.load_file config_file, fallback: {}
-        elsif YAML::VERSION >= "2.1.0"
-          YAML.load_file config_file, {}
-        else
-          YAML.load_file(config_file) || {} # ambiguous with false or nil value
-        end
+      raise ConfigModule::ConfigFileNotSpecified, config_file unless config_file
+      raise ConfigModule::ConfigFileNotFound, config_file unless File.exist? config_file
 
+      yaml_load
       load_namespaces_from raw_config
     end
 
@@ -62,6 +57,19 @@ module ConfigModule
 
     def namespaces
       @namespaces ||= []
+    end
+
+  private
+
+    def yaml_load
+      @raw_config =
+        if YAML::VERSION >= "3.0.2"
+          YAML.load_file config_file, fallback: {}
+        elsif YAML::VERSION >= "2.1.0"
+          YAML.load_file config_file, {}
+        else
+          YAML.load_file(config_file) || {} # ambiguous with false or nil value
+        end
     end
   end
 end
