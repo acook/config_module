@@ -9,8 +9,10 @@ Gem::Specification.new do |gem|
   gem.version = ConfigModule::VERSION
   gem.authors = ["Anthony M. Cook"]
   gem.email = ["github@anthonymcook.com"]
-  gem.description =
-    "Wrap a configuration file in a module for easy use throughout your application. Inspired by Rails."
+  gem.description = <<-DESC.chomp.gsub(/^ */, "")
+    ConfigModule loads a YAML file into a module to make it easy to access and maintain your configurations.
+    It provides helpers for namespaces (like environments), hash-like square-bracket access, helpful custom exceptions, and optimized repeat access.
+  DESC
   gem.summary = "Load important configuration files into their own modules!"
   gem.homepage = "http://github.com/acook/config_module"
   gem.licenses = %w[MIT LGPL-3.0]
