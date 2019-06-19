@@ -8,6 +8,8 @@ engines:
   rubocop:
     enabled: true
     channel: rubocop-0-50
+    config:
+      file: .rubocop.yml
   reek:
     enabled: true
 ratings:
