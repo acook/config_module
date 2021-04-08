@@ -13,9 +13,19 @@ jobs:
           name: Which bundler?
           command: bundle -v
       - ruby/bundle-install
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+          # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
   test:
     executor: ruby/default
+    pre:
+      - ./cc-test-reporter before-build
     steps:
       - run:
           name: Uspec tests
           command: uspec
+    post:
+      - ./cc-test-reporter after-build --coverage-input-type simplecov
