@@ -1,23 +1,21 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
-version: 2
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.6
-
-    working_directory: ~/repo
-
+      - image: circleci/ruby:2.6.3-stretch-node
+    executor: ruby/default
     steps:
       - checkout
       - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
+  test:
+    executor: ruby/default
+    steps:
       - run:
-          name: run tests
-          command: 
-            bundle exec uspec
+          name: Uspec tests
+          command: uspec
