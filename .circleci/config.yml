@@ -21,7 +21,7 @@ jobs:
           command: ./cc-test-reporter before-build
       - run:
           name: Uspec tests
-          command: uspec
+          command: bundle exec uspec
       - run:
           name: Report coverage to CodeClimate 
           command: ./cc-test-reporter after-build --coverage-input-type simplecov
